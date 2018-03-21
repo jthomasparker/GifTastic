@@ -1,7 +1,84 @@
-img{
+body{
+    padding: 20px;
+}
+
+
+.topicPanel > .panel-heading{
+    color: #fdfdff;
+    font-weight: bold;
+    background-color: #546a7b;
+    cursor: pointer;
+}
+
+#addMorePanel> .panel-heading, #tvShowsPanel > .panel-heading{
+    background-color: #393d3f;
+    border-color: #393d3f;
+    color: #fdfdff;
+}
+
+.resultDiv{
+    float: left;
     margin: 10px;
 }
 
-.topicPanel{
-    box-sizing: border-box;
+.btn{
+    margin: 5px;
+
 }
+
+.btnTopic{
+  /*  background-color: #546a7b;
+    border-color: #546a7b; */
+    background-color: #62929e;
+    border-color: #62929e;
+    -webkit-transition: .25s;
+    transition: .25s;
+}
+.clicked, .btnTopic:active, .btnTopic:focus, .btnTopic:hover{
+ /* background-color: #393d3f;
+    border-color: #393d3f;  */
+    background-color: #62929e;
+    border-color: #62929e;
+    filter: brightness(50%);
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-style: solid;
+    outline: none;
+    
+  /*  background-color: #a63a50; */
+}
+
+
+
+
+
+/* only needed for the sticky footer, which I can't get to work
+.header{
+    padding: 10px 16px;
+}
+
+.content{
+    padding: 16px;
+    margin-top: 20px;
+}
+
+.sticky{
+    position: fixed;
+    top: 0;
+    
+}
+
+.sticky + .content{
+    padding-top: 102px;
+}
+
+.affix {
+    top: 0;
+    
+    z-index: 9999 !important;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+*/
