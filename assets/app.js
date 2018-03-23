@@ -1,3 +1,4 @@
+
 // TODO: sticky header, clear all shows button, ability to save favorite gifs
 // reduce redundancy (ie checking the button state on 2 different click events could possibly be combined into one function)
 
@@ -101,16 +102,20 @@ $(document).ready(function(){
             var btn = $('#' + Id)
             console.log(btn.length)
             if(btn.length > 0){
-                alert("here")
+                
                 addToFav(btn)
             
             } else {
-                alert('there')
+                
                 var idx = favorites.indexOf(Id)
                 favorites.splice(idx, 1)
               //  addToFav(btn)
                 updateLocalStorage("storedFavorites", favorites)
                 processFavorites()
+                if(favorites.length === 0){
+                    showFavs = false;
+                    toggleFavPanel();
+                }
             }
         
     })
@@ -283,20 +288,18 @@ function queryAPI(){
             var gifID = results[i].id
             // label for the gif (Rating for now, may add title later)
             var labelDiv = $('<div>')
-          // var label = $('<span>').html("<b>Rating: " + results[i].rating.toUpperCase() + "</b>");
-          var label = "<b> Rating: " + results[i].rating.toUpperCase() + "</b>"
-         //  var favStar = $('<span class="glyphicon glyphicon-star">')
+            var label = "<b> Rating: " + results[i].rating.toUpperCase() + "</b>"
+            // create favorite button
             var btnFavorite = $('<button class="btn btn-default btnFavorite">')
                             .attr('id', gifID)
             
-                            
-
-                          labelDiv.html(label)  
-            updateFavBtn(btnFavorite) 
-            labelDiv.prepend(btnFavorite) 
-         // label.prepend(btnFavorite)
+                // add the label to the label div
+                labelDiv.html(label)
+                // see if the button is in favorites already, and add the appropriate star
+                updateFavBtn(btnFavorite) 
+                // add the button to the labeldiv
+                labelDiv.prepend(btnFavorite) 
           
-
             // create the img element for the gif
             var resultImage = $("<img>");
 
@@ -311,16 +314,12 @@ function queryAPI(){
                 'id': "#gif-" + gifID
                 });
             
-            // create a div for each gif with the label and gif
-          //  label.prepend(btnFavorite)
-           // label.append(resultImage)
-            
+            // create the div to hold each result
             var resultDiv = $('<div class="resultDiv">')
-                        .append(labelDiv, resultImage)
-                       // .append(resultImage)
-
-            // add the result div to the panel body
-            panelBody.prepend(resultDiv)
+                            .append(labelDiv, resultImage)
+        
+                // add the result div to the panel body
+                panelBody.prepend(resultDiv)
         }
 
         // prepend the panel to #results
@@ -329,10 +328,15 @@ function queryAPI(){
 }
 
 
-
+// queries the api for gifs with the matching ids in favorites[]
 function processFavorites(){
+    // clear the gifs in the panel (prevents duplicates)
     $('#favBody').empty();
-      if(showFavs && favorites.length > 0){  
+
+    /* if showFavs is true and the favorites array isn't empty, run the query
+     Note: This check is necessary because running the query when the favorites aren't displayed is pointless
+         and running the query with no ids returns an error */
+    if(showFavs && favorites.length > 0){  
         var queryURL = "https://api.giphy.com/v1/gifs?api_key=" + apiKey + "&ids=" + favorites
         $.ajax({
             url: queryURL,
@@ -340,6 +344,7 @@ function processFavorites(){
         }).done(function(response){
             var results = response.data
             
+            // loop through the results
             for(i=0; i < results.length; i++){
                 // create the img element for the gif
                 var resultImage = $("<img>");
@@ -354,31 +359,32 @@ function processFavorites(){
                     'alt': results[i].title,
                     'id': "#fav-" + results[i].id
                 });
-
+                // id for the remove button
                 var Id = 'rmv' + results[i].id
+                // create the div for each result
                 var resultDiv = $('<div class="resultDiv">')
+                // glyph for the remove button
                 var favRemove = $('<span class="glyphicon glyphicon-remove">')
+                // create the remove button, give it's id and cool glyph
                 var btnRemove = $('<button class="btn btn-default btnRemove">')
                                 .attr("id", Id)
-                                    
-                
-
-                btnRemove.append(favRemove)
-                
-                
-               resultDiv.append(btnRemove, resultImage)
+                                .append(favRemove)
+                // add button and gif to resultdiv
+                resultDiv.append(btnRemove, resultImage)
+                // add resultdiv to favorite section
                 $('#favBody').prepend(resultDiv)
             }   
         })
     }
 }
 
-
+// formats the "add to favorite" button
 function updateFavBtn(thisBtn){
     thisBtn.empty();
     var Id = $(thisBtn).attr("id");
     var btnState = $(thisBtn).attr("btnState")
     var favStar = $('<span class="glyphicon">')
+    // if it's not in favorites[], empty star otherwise filled star
     if(favorites.indexOf(Id) < 0){
         $(thisBtn).attr("btnState", "inactive")
         favStar.removeClass("glyphicon-star").addClass("glyphicon-star-empty")
@@ -404,7 +410,6 @@ function addToFav(thisBtn){
             var idx = favorites.indexOf(btnID)
             favorites.splice(idx, 1)
         }
-        // add this to remove
         var favCount = favorites.length;
         $('#show-favs')
         .html(" (" + favCount + ")")
