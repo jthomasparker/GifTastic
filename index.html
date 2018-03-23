@@ -11,63 +11,60 @@
     <title>GifTastic!</title>
 </head>
 <body>
-        
-    <div class="container">
-        <!--come back to this    
-            <div class="header" id="sticky-header">
-            -->
-                    <div class="row">
-            <div class="col-xs-12">
-                   
-                <div class="panel panel-default">
-                    <div class="panel-body">
+
+<!-- top panel -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">           
+            <div class="panel panel-default">
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-8">
+                            <!-- Holds the topics buttons (aka tv shows)-->
                             <div class="panel panel-default" id="tvShowsPanel">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">TV Shows</h3>
                                 </div>
                                 <div class="panel-body">
-                                        <div id="categories"></div>
+                                    <div id="categories"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-md-4">
-                                <div class="panel panel-default" id="addMorePanel">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Add More TV Shows</h3> 
-                                    </div>
-                                
+                            <!-- holds the add more textbox and button -->
+                            <div class="panel panel-default" id="addMorePanel">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Add More TV Shows</h3> 
+                                </div>
                                 <div class="panel-body">
-                                    <input type="text" class="form-control" id="topic-input">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                                            <input type="text" class="form-control" id="topic-input">
+                                        </div>
                                     <button type="submit" class="btn btn-default" id="add-topic">Add Show</button>
-                                </div>
-                                
                                     </div>
                                 </div>
-
+                            </div>
+                            <button class="btn btn-default toggle-favs" id="show-favs">Show</button>
+                        </div>
                     </div>
                 </div>
-                </div>
-            </div>
             </div>
         </div>
-    
-    <!-- come back to the sticky header shit
     </div>
-    <div class="content">
-    -->
-<div class="container">
-    
-        <div class="row">
-            <div class="col-xs-12">
-                <div id="results">
-
-                </div>
-            </div>
-            
-            </div>
+</div>
+ 
+<!-- holds the results -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12" id="results">
+           <!-- <div id="results">
+            </div> -->
         </div>
+        <div class="col-xs-0" id="favorites"></div>
+    </div>
+</div>
     
 </body>
 </html>
