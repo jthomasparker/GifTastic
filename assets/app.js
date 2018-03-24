@@ -1,6 +1,6 @@
 
-// TODO: sticky header, clear all shows button, ability to save favorite gifs
-// reduce redundancy (ie checking the button state on 2 different click events could possibly be combined into one function)
+// TODO: sticky header, clear all shows button, download GIF button
+// TODO: completely redo the code for the favorites functionality. it's full of redudancy
 
 var q;
 var limit = 10;
@@ -87,6 +87,7 @@ $(document).ready(function(){
         
     })
 
+    // show/hide favorites panel
     $('body').on('click', '.toggle-favs', function(){
         if($(this).attr('id') === 'show-favs'){
         showFavs = true;
@@ -96,27 +97,24 @@ $(document).ready(function(){
         toggleFavPanel();
     })
 
+    // 'X' button that removes favorites from favorites panel
     $('body').on('click', '.btnRemove', function(){
-           var Id = $(this).attr("id")
-           Id = Id.substr(3)
-            var btn = $('#' + Id)
-            console.log(btn.length)
-            if(btn.length > 0){
-                
-                addToFav(btn)
-            
-            } else {
-                
-                var idx = favorites.indexOf(Id)
-                favorites.splice(idx, 1)
-              //  addToFav(btn)
-                updateLocalStorage("storedFavorites", favorites)
-                processFavorites()
-                if(favorites.length === 0){
-                    showFavs = false;
-                    toggleFavPanel();
-                }
+        var Id = $(this).attr("id")
+        Id = Id.substr(3)
+        var btn = $('#' + Id)
+        console.log(btn.length)
+        if(btn.length > 0){
+            addToFav(btn)
+        } else {
+            var idx = favorites.indexOf(Id)
+            favorites.splice(idx, 1)
+            updateLocalStorage("storedFavorites", favorites)
+            processFavorites()
+            if(favorites.length === 0){
+                showFavs = false;
+                toggleFavPanel();
             }
+        }
         
     })
     
@@ -391,17 +389,17 @@ function updateFavBtn(thisBtn){
        
     } else {
         $(thisBtn).attr("btnState", "active")
-        favStar.removeClass("glyphicon-star-empty").addClass("glyphicon-star")
-        
+        favStar.removeClass("glyphicon-star-empty").addClass("glyphicon-star")  
     }
-    $(thisBtn).append(favStar)
-    }
+        $(thisBtn).append(favStar)
+}
 
 
-
+// adds/removes favorites
 function addToFav(thisBtn){
     var btnID = $(thisBtn).attr("id")
     var favStar = $('<span class="glyphicon glyphicon-star">')
+        // if the button id doesn't exist in favorites, add it. otherwise remove it
         if(favorites.indexOf(btnID) < 0){
             $(thisBtn).attr("btnState", "active")
             favorites.push(btnID)
@@ -414,14 +412,17 @@ function addToFav(thisBtn){
         $('#show-favs')
         .html(" (" + favCount + ")")
         .prepend(favStar)
+        // update the star
         updateFavBtn(thisBtn)
-      //  toggleFavPanel()
+        // update the localstorage
         updateLocalStorage("storedFavorites", favorites)
+        // fill out favorites panel
         processFavorites()
         if(favCount === 0){
             showFavs = false;
             toggleFavPanel()
         }
+        // if it's the first favorite added, show the favorites panel
         if(!firstAdd){
             firstAdd = true;
             showFavs = true;
@@ -429,6 +430,7 @@ function addToFav(thisBtn){
         }
 }
 
+// displays or removes the favorites panel
 function toggleFavPanel(){
     var favCount = favorites.length;
     var favStar = $('<span class="glyphicon glyphicon-star">')

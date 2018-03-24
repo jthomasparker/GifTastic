@@ -1,7 +1,5 @@
 body{
     padding: 20px;
-  /*  background-image: url('images/tv.jpg'); 
-    background-size: 100%; */
 }
 
 
@@ -44,8 +42,6 @@ body{
     border-style: solid;
     outline: none;
 }
-
-/* get rid of scroll bar on smaller screens */
 
 ::-webkit-scrollbar{
     display: none;
